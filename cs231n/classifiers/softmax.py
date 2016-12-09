@@ -128,6 +128,8 @@ def softmax_loss_naive(W, X, y, reg, verbose=False):
       print scale_const
       print "\n Normalized Scores:"
       print norm_scores
+      print "\n True Labels (y):"
+      print y
       print "\n Scores of correct classes:"
       print correct_scores
       print "\n Exp(Normalized Scores):" 
@@ -197,8 +199,6 @@ def softmax_loss_naive(W, X, y, reg, verbose=False):
       print dnorm_scores_1
       print "\n dnorm_scores (after addback):" 
       print dnorm_scores 
-      print "\n dmax_val:"
-      print dscores_1
       print "\n dscores:"
       print dscores
       print "dW (Gradient) Before Regularization:\n"
@@ -324,6 +324,8 @@ def softmax_loss_vectorized(W, X, y, reg, verbose=False):
       print scale_const
       print "\n Normalized Scores:"
       print norm_scores
+      print "\n True Labels (y):"
+      print y
       print "\n Scores of correct classes:"
       print correct_scores
       print "\n Exp(Normalized Scores):" 
@@ -358,12 +360,12 @@ def softmax_loss_vectorized(W, X, y, reg, verbose=False):
 
   # Stage 4 - Backprop exp(scores) --> exp_scores                        #[4]    
   dnorm_scores = lg_exp_scores * dexp_scores
-  dnorm_scores_1 = dnorm_scores   # Store d_norm_scores before adding
+  dnorm_scores_1 = np.copy(dnorm_scores)   # Store d_norm_scores before adding
                                   # back dcorrect_scores
-    
+           
   # Stage 3 - Backprop score of correct class --> correct_scores         #[3]    
   dnorm_scores[np.arange(num_train), y] += dcorrect_scores
-
+    
   # Stage 2 - Backprop scores - max(scores) --> norm_scores              #[2]  
   dscores = dnorm_scores
 
@@ -390,8 +392,6 @@ def softmax_loss_vectorized(W, X, y, reg, verbose=False):
       print dnorm_scores_1
       print "\n dnorm_scores (after addback):" 
       print dnorm_scores 
-      print "\n dmax_val:"
-      print dscores_1
       print "\n dscores:"
       print dscores
       print "dW (Gradient) Before Regularization:\n"
